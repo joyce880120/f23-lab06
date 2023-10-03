@@ -12,14 +12,13 @@ public class Frogger {
     private int position;
     
     // Field for task 2. Anything to add/change?
-    private final Records records;
+    // private final Records records;
     private String firstName, lastName, phoneNumber, zipCode, state, gender;
 
-    public Frogger(Road road, int position, Records records, String firstName, String lastName, String phoneNumber,
+    public Frogger(Road road, int position, String firstName, String lastName, String phoneNumber,
     String zipCode, String state, String gender) {
         this.road = road;
         this.position = position;
-        this.records = records;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
@@ -36,33 +35,21 @@ public class Frogger {
      */
     public boolean move(boolean forward) {
         int nextPosition = this.position + (forward ? 1 : -1);
-        if (!isValid(nextPosition) || isOccupied(nextPosition)) {
+        if (!road.isValid(nextPosition) || road.isOccupied(nextPosition)) {
             return false;
         }
         this.position = nextPosition;
         return true;
     }
 
-    // TODO: Do you notice any issues here?
-    public boolean isOccupied(int position) {
-        boolean[] occupied = this.road.getOccupied();
-        return occupied[position];
-    }
-    
-    public boolean isValid(int position) {
-        if (position < 0) return false;
-        boolean[] occupied = this.road.getOccupied();
-        return position < occupied.length;
-    }
 
     /**
-     * Records Frogger to the list of records.
+     * Records Frogger.
      * 
-     * @return true if record successful, else false.
+     * @return FroggerID.
      */
-    public boolean recordMyself() {
-      boolean success = records.addRecord(firstName, lastName, phoneNumber, zipCode, state, gender);
-      return success;
+    public FroggerID recordMyself() {
+        FroggerID id = new FroggerID(firstName, lastName, phoneNumber, zipCode, state, gender);
+        return id;
     }
-
 }
